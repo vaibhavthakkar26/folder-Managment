@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { createFolder } from '../redux/action';
+import { Box, Typography } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Search from '../components/Search';
+import CreateFolder from '../components/CreateFolder';
 
 function Home() {
   const dispatch = useDispatch();
@@ -12,32 +18,38 @@ function Home() {
   });
 
   console.log("folderTotalData",folderTotalData);
+  console.log("folderListfolderList",folderList);
 
   const folderListHandler = () => {
-    setFolderList(localStorage.getItem("folder"));
+    setFolderList(localStorage.getItem("folder") || []);
   }
 
   useEffect(()=>{
     folderListHandler()
   },[folderTotalData])
-
   
-
-  const createFolderHandler = () =>{
-      const data = {
-          id: folderTotalData.length +1,
-          name:`new Folder${folderTotalData.length+1} `
-        }
-        dispatch(createFolder(data));
-        // setFolderList(data,...folderTotalData);
-        localStorage.setItem("folder",JSON.stringify([...folderTotalData,data]));
-        console.log("111",[...folderTotalData,data]);
-  }
-
+  
   return (
-    <div>
-      <button onClick={()=>createFolderHandler()}> Add folder </button>
-    </div>
+    <Box>
+      <Box>
+        <Typography>
+          LIBRARY
+        </Typography>
+        <AddCircleIcon/>
+      </Box>
+      <Box>
+        <FormGroup>
+            <FormControlLabel control={<Checkbox />} label="Select All" />
+        </FormGroup>
+        <Box>
+              <Search/>
+              <CreateFolder/>
+        </Box>
+      </Box>
+    </Box>
+    // <div>
+    //   <button onClick={()=>createFolderHandler()}> Add folder </button>
+    // </div>
   )
 }
 
