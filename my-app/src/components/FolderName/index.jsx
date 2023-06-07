@@ -1,8 +1,8 @@
 import { Box, Button, Modal, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { createFolder } from "../../redux/action";
+import { createFolder, deleteFolder, editFolder, createSideFolder} from "../../redux/action";
 
 const style = {
   position: "absolute",
@@ -17,7 +17,8 @@ const style = {
   p: 4,
 };
 
-function FolderName({ modelOpen, handleClose }) {
+function FolderName({ modelOpen, handleClose ,editData,siderBarFolder}) {
+  const editFolderData = editData || {}
   const [name, setName] = useState("");
   const dispatch = useDispatch();
 
@@ -25,15 +26,44 @@ function FolderName({ modelOpen, handleClose }) {
     return state.folder.item;
   });
 
+  const sideFolderData = useSelector((state) => {
+    return state.folder.sbFolder;
+  });
+
+  useEffect(()=>{
+    editDataHandler();
+  },[editData]);
+
+  const editDataHandler = () =>{
+    
+    setName(editData?.name)
+    console.log("editData",editFolderData);
+  }
+
+  const deleteHandler = () =>{
+    dispatch(deleteFolder(editData?.id));
+  } 
 
   const saveNameHandler = () => {
     const data = {
-      id: uuidv4(),
+      id: editData?.id ? editData?.id : uuidv4(),
       name: name ? name : `new Folder`,
       selected: false,
     };
-    dispatch(createFolder(data));
-    localStorage.setItem("folder", JSON.stringify([...folderTotalData, data]));
+
+    if(siderBarFolder){
+      dispatch(createSideFolder(data))
+      localStorage.setItem("sideBarFolders", JSON.stringify([...sideFolderData, data]));
+    }else{
+      if(editData){
+        console.log("DATA",data);
+        dispatch(editFolder(editData?.id,data));
+      }else{
+        dispatch(createFolder(data));
+        localStorage.setItem("folder", JSON.stringify([...folderTotalData, data]));
+      }
+    }
+
     handleClose();
   };
 
@@ -50,6 +80,7 @@ function FolderName({ modelOpen, handleClose }) {
             <TextField
               id="outlined-basic"
               label="Outlined"
+              value={name}
               variant="outlined"
               onChange={(e) => setName(e.target.value)}
             />
@@ -58,6 +89,9 @@ function FolderName({ modelOpen, handleClose }) {
             <Button variant="contained" onClick={() => saveNameHandler()}>
               Save
             </Button>
+            {
+              editData && <Button variant="contained" onClick={()=>deleteHandler()}> Delete </Button> 
+            }
           </Box>
         </Box>
       </Box>

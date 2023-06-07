@@ -8,6 +8,7 @@ const mainReducer = combineReducers({
 const commanData ={
     folder:{
         item:[],
+        sbFolder : []
     }
 };
 

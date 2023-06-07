@@ -1,15 +1,36 @@
-import { actionNameHandler } from "../../helper/reduxHandler";
+import { actionNameHandler, sideBarFolderHandler } from "../../helper/reduxHandler";
 
 const MainCombineReducers = (state = "", action) => {
   switch (action.type) {
+
     case actionNameHandler.addFolder: {
       const data = action.data;
-      console.log("data", data);
       const item = [...state.item, data];
-      console.log("item", item);
       return {
         ...state,
         item,
+      };
+    }
+
+    case actionNameHandler.editFolder :{
+      return {
+        ...state,
+        item: state.item.map((user) => user.id === action.data.id && action.data)
+      }
+    }
+
+    case actionNameHandler.deleteFolder :{
+      return{
+        ...state,
+        item: state.item.filter((user) => user.id !== action.data)
+      }
+    }
+
+    case sideBarFolderHandler.addSideFolder : {
+      // console.log("state",state);
+      return {
+        ...state,
+        sbFolder:[...state.sbFolder,action.data]
       };
     }
 

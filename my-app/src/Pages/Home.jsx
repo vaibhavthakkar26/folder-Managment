@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Typography } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { Box } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -9,6 +8,7 @@ import Search from "../components/Search";
 import CreateFolder from "../components/CreateFolder";
 import DisplayFolder from "../components/Folders/DisplayFolder";
 import { createFolder } from "../redux/action";
+import SideBar from "../components/SiderBar";
 
 function Home() {
   const dispatch = useDispatch();
@@ -38,10 +38,7 @@ function Home() {
 
   return (
     <Box display={"flex"} maxWidth={"1440px"} margin={"0 auto"}>
-      <Box maxWidth={"319px"} width={"100%"} display={"flex"} paddingTop={1.2} justifyContent={"space-evenly"}>
-        <Typography>LIBRARY</Typography>
-        <AddCircleIcon />
-      </Box>
+      <SideBar/>
 
       <Box flex={1}>
         {/* Right SIDE */}

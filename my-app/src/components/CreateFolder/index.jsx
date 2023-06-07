@@ -20,7 +20,7 @@ function CreateFolder() {
   return (
     <div>
       <Button variant='outlined' startIcon={<AddIcon />} onClick={()=>newFolderHandler()}> New Folder </Button>
-      <FolderName modelOpen={modelOpen} handleClose={modelCloseHandler}/>
+      <FolderName modelOpen={modelOpen} handleClose={modelCloseHandler} editData={null} siderBarFolder={false}/>
     </div>
   )
 }
