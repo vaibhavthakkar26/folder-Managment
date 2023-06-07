@@ -1,29 +1,26 @@
 import { Button } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
-import { useDispatch, useSelector } from 'react-redux';
-import { createFolder } from '../../redux/action';
-import { v4 as uuidv4 } from 'uuid';
+import FolderName from '../FolderName';
 
 function CreateFolder() {
-    const dispatch = useDispatch();
+    const [modelOpen,setModelOpen] = useState(false);
 
-    const folderTotalData = useSelector((state) => {
-        return state.folder.item;
-    });
+    // const folderTotalData = useSelector((state) => {
+    //     return state.folder.item;
+    // });
+
+    const modelCloseHandler = () =>{
+      setModelOpen(false);
+    }
 
     const newFolderHandler = () =>{
-        const data = {
-            id: uuidv4(),
-            name:`new Folder`,
-            selected:false
-          }
-          dispatch(createFolder(data));
-          localStorage.setItem("folder",JSON.stringify([...folderTotalData,data]));
+      setModelOpen(!modelOpen);
     };
   return (
     <div>
       <Button variant='outlined' startIcon={<AddIcon />} onClick={()=>newFolderHandler()}> New Folder </Button>
+      <FolderName modelOpen={modelOpen} handleClose={modelCloseHandler}/>
     </div>
   )
 }

@@ -1,63 +1,69 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Typography } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Search from '../components/Search';
-import CreateFolder from '../components/CreateFolder';
-import DisplayFolder from '../components/Folders/DisplayFolder';
+import { Box, Typography } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Search from "../components/Search";
+import CreateFolder from "../components/CreateFolder";
+import DisplayFolder from "../components/Folders/DisplayFolder";
+import { createFolder } from "../redux/action";
 
 function Home() {
   const dispatch = useDispatch();
-  const [folderList,setFolderList] = useState([]);
-
 
   const folderTotalData = useSelector((state) => {
     return state.folder.item;
   });
 
-  console.log("folderTotalData",folderTotalData);
-  console.log("folderListfolderList",folderList);
-
-  const folderListHandler = () => {
-    setFolderList(localStorage.getItem("folder") || []);
+  const selectAllHandler = (event) =>{
+    const mainData = folderTotalData.map(item => ({...item,selected:event.target.checked}));
+    console.log("MainData",mainData);
   }
 
-  useEffect(()=>{
-    folderListHandler()
-  },[folderTotalData])
-  
-  
+  const folderListHandler = () => {
+    const localstorageData = localStorage.getItem("folder");
+    if (localstorageData) {
+      const items = JSON.parse(localstorageData);
+      if (items && items.length > 0) { 
+        items.map((item) =>dispatch(createFolder(item)));
+      }
+    }
+  };
+
+  useEffect(() => {
+    folderListHandler();
+  }, []);
+
   return (
-    <Box display={"flex"}>
-      <Box>
-        <Typography>
-          LIBRARY
-        </Typography>
-        <AddCircleIcon/>
+    <Box display={"flex"} maxWidth={"1440px"} margin={"0 auto"}>
+      <Box maxWidth={"319px"} width={"100%"} display={"flex"} paddingTop={1.2} justifyContent={"space-evenly"}>
+        <Typography>LIBRARY</Typography>
+        <AddCircleIcon />
       </Box>
-      
-      <Box> {/* Right SIDE */}
-        <Box display={"flex"}> {/* NavBar */}
-        <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="Select All" />
-        </FormGroup>
-        <Box display={"flex"}>
-              <Search/>
-              <CreateFolder/>
+
+      <Box flex={1}>
+        {/* Right SIDE */}
+        <Box display={"flex"} justifyContent={"space-between"} paddingBottom={2.5} paddingTop={1.3}>
+          {/* NavBar */}
+          <FormGroup>
+            <FormControlLabel control={<Checkbox onChange={selectAllHandler}/>} label="Select All" />
+          </FormGroup>
+          <Box display={"flex"} gap={1.5}>
+            <Search />
+            <CreateFolder />
+          </Box>
         </Box>
-        </Box>
-        <Box> {/* Display Folders */}
-          <DisplayFolder/>
+        <Box display={"flex"} flexWrap={"wrap"} alignItems={"stretch"} gap={2.4}>
+          {/* Display Folders */}
+          {folderTotalData?.map((result) => {
+            return <DisplayFolder data={result} />
+          })}
         </Box>
       </Box>
     </Box>
-    // <div>
-    //   <button onClick={()=>createFolderHandler()}> Add folder </button>
-    // </div>
-  )
+  );
 }
 
 export default Home;
