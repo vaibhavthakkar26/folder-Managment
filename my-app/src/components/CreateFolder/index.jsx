@@ -15,7 +15,8 @@ function CreateFolder() {
     const newFolderHandler = () =>{
         const data = {
             id: uuidv4(),
-            name:`new Folder`
+            name:`new Folder`,
+            selected:false
           }
           dispatch(createFolder(data));
           localStorage.setItem("folder",JSON.stringify([...folderTotalData,data]));

@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Search from '../components/Search';
 import CreateFolder from '../components/CreateFolder';
+import DisplayFolder from '../components/Folders/DisplayFolder';
 
 function Home() {
   const dispatch = useDispatch();
@@ -30,20 +31,26 @@ function Home() {
   
   
   return (
-    <Box>
+    <Box display={"flex"}>
       <Box>
         <Typography>
           LIBRARY
         </Typography>
         <AddCircleIcon/>
       </Box>
-      <Box>
+      
+      <Box> {/* Right SIDE */}
+        <Box display={"flex"}> {/* NavBar */}
         <FormGroup>
             <FormControlLabel control={<Checkbox />} label="Select All" />
         </FormGroup>
-        <Box>
+        <Box display={"flex"}>
               <Search/>
               <CreateFolder/>
+        </Box>
+        </Box>
+        <Box> {/* Display Folders */}
+          <DisplayFolder/>
         </Box>
       </Box>
     </Box>
