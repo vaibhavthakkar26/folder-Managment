@@ -7,9 +7,11 @@ import Checkbox from "@mui/material/Checkbox";
 import Search from "../components/Search";
 import CreateFolder from "../components/CreateFolder";
 import DisplayFolder from "../components/Folders/DisplayFolder";
-import { createFolder } from "../redux/action";
+import { GeneralFolder, createFolder } from "../redux/action";
+import {  } from "../";
 import SideBar from "../components/SiderBar";
-
+import { Droppable } from "react-beautiful-dnd";
+import { FolderWrapper, MainContainer, RightNavBox, RightSideContainer, SearchBarBox } from "../style/Home.style";
 function Home() {
   const dispatch = useDispatch();
 
@@ -17,18 +19,20 @@ function Home() {
     return state.folder.item;
   });
 
-  const selectAllHandler = (event) =>{
-    const mainData = folderTotalData.map(item => ({...item,selected:event.target.checked}));
-    console.log("MainData",mainData);
-  }
+  const selectAllHandler = (event) => {
+    const mainData = folderTotalData.map((item) => ({
+      ...item,
+      selected: event.target.checked,
+    }));
+    dispatch(GeneralFolder(mainData)); 
+    // console.log("MainData", mainData);
+  };
 
   const folderListHandler = () => {
     const localstorageData = localStorage.getItem("folder");
     if (localstorageData) {
       const items = JSON.parse(localstorageData);
-      if (items && items.length > 0) { 
-        items.map((item) =>dispatch(createFolder(item)));
-      }
+      dispatch(GeneralFolder(items)); 
     }
   };
 
@@ -37,29 +41,36 @@ function Home() {
   }, []);
 
   return (
-    <Box display={"flex"} maxWidth={"1440px"} margin={"0 auto"}>
-      <SideBar/>
-
-      <Box flex={1}>
-        {/* Right SIDE */}
-        <Box display={"flex"} justifyContent={"space-between"} paddingBottom={2.5} paddingTop={1.3}>
-          {/* NavBar */}
+    <MainContainer >
+      <SideBar />
+      <RightSideContainer>
+        <RightNavBox>
           <FormGroup>
-            <FormControlLabel control={<Checkbox onChange={selectAllHandler}/>} label="Select All" />
+            <FormControlLabel
+              control={<Checkbox onChange={selectAllHandler} />}
+              label="Select All"
+            />
           </FormGroup>
-          <Box display={"flex"} gap={1.5}>
+          <SearchBarBox display={"flex"} gap={1.5}>
             <Search />
             <CreateFolder />
-          </Box>
-        </Box>
-        <Box display={"flex"} flexWrap={"wrap"} alignItems={"stretch"} gap={2.4}>
-          {/* Display Folders */}
-          {folderTotalData?.map((result) => {
-            return <DisplayFolder data={result} Width={"28.4%"}/>
-          })}
-        </Box>
-      </Box>
-    </Box>
+          </SearchBarBox>
+        </RightNavBox>
+        <Droppable droppableId="General Folder" isCombineEnabled={true}>
+          {(provided) => (
+            <FolderWrapper
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {/* Display Folders */}
+              {folderTotalData?.map((result,index) => {
+                return <DisplayFolder data={result} Width={"28.4%"} index={index}/>;
+              })}
+            </FolderWrapper>
+          )}
+        </Droppable>
+      </RightSideContainer>
+    </MainContainer>
   );
 }
 

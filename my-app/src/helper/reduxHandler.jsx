@@ -1,7 +1,8 @@
 export const actionNameHandler = {
     addFolder : "ADD_NEW_FOLDER",
     editFolder : "EDIT_FOLDER",
-    deleteFolder : "DELETE_FOLDER"
+    deleteFolder : "DELETE_FOLDER",
+    Genernal : "GENERNAL"
 };
 
 export const sideBarFolderHandler = {

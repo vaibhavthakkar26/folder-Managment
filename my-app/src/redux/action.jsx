@@ -37,8 +37,17 @@ export const editSideFolder = (id,data) =>{
 }   
 
 export const deleteSideFolder = (id) =>{
+    console.log("deleteSideFolder",id);
     return{
         type : sideBarFolderHandler.deleteSideFolder,
         data: id
+    }
+}
+
+
+export const GeneralFolder = (data) =>{
+    return {
+        type : actionNameHandler.Genernal,
+        data
     }
 }

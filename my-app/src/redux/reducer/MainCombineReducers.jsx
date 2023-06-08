@@ -26,6 +26,13 @@ const MainCombineReducers = (state = "", action) => {
       }
     }
 
+    case actionNameHandler.Genernal :{
+      return{
+        ...state,
+        item: action.data
+      }
+    }
+
     case sideBarFolderHandler.addSideFolder : {
       // console.log("state",state);
       return {
@@ -41,6 +48,15 @@ const MainCombineReducers = (state = "", action) => {
         sbFolder: state.sbFolder.map((user) => user.id === action.data.id && action.data)
       }
     }
+
+    case sideBarFolderHandler.deleteSideFolder :{
+      return{
+        ...state,
+        sbFolder: state.sbFolder.filter((user) => user.id !== action.data)
+      }
+    }
+
+    
     default:
       return state;
   }

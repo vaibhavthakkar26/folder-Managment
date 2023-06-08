@@ -2,7 +2,8 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { createFolder, deleteFolder, editFolder, createSideFolder,editSideFolder} from "../../redux/action";
+import { createFolder, deleteFolder, editFolder, createSideFolder,editSideFolder,deleteSideFolder} from "../../redux/action";
+import { FolderNameBox } from "../../style/Home.style";
 
 const style = {
   position: "absolute",
@@ -17,14 +18,7 @@ const style = {
   p: 4,
 };
 
-function FolderName({ modelOpen, handleClose ,editData,siderBarFolder,sideBarEdit}) {
-  console.log("1",{
-    modelOpen,
-    handleClose,
-    editData,
-    siderBarFolder,
-    sideBarEdit
-  })
+function FolderName({ modelOpen, handleClose ,editData,siderBarFolder}) {
   const editFolderData = editData || {}
   const [name, setName] = useState("");
   const dispatch = useDispatch();
@@ -42,13 +36,16 @@ function FolderName({ modelOpen, handleClose ,editData,siderBarFolder,sideBarEdi
   },[editData]);
 
   const editDataHandler = () =>{
-    
-    setName(editData?.name)
-    console.log("editData",editFolderData);
+    setName(editData?.name);
   }
 
   const deleteHandler = () =>{
-    dispatch(deleteFolder(editData?.id));
+    if(siderBarFolder){
+      dispatch(deleteSideFolder(editData?.id))
+    }else{
+      dispatch(deleteFolder(editData?.id));
+    }
+    handleClose()
   } 
 
   const saveNameHandler = () => {
@@ -57,44 +54,23 @@ function FolderName({ modelOpen, handleClose ,editData,siderBarFolder,sideBarEdi
       name: name ? name : `new Folder`,
       selected: false,
     };
-
-    // if(siderBarFolder){
-    //   dispatch(createSideFolder(data))
-    //   localStorage.setItem("sideBarFolders", JSON.stringify([...sideFolderData, data]));
-    // }else{
-
-    // }
-
-    // if(editData){
-    //   console.log("DATA",data);
-    //   dispatch(editFolder(editData?.id,data));
-    // }else{
-    //   dispatch(createFolder(data));
-    //   localStorage.setItem("folder", JSON.stringify([...folderTotalData, data]));
-    // }
+    console.log("folderTotalData",folderTotalData);
+    console.log("sideFolderData",sideFolderData);
 
     if(siderBarFolder){
       if(editData){
-        console.log("SIMPLE EDIT SIDEBAR ");
         dispatch(editSideFolder(editData?.id,data));
       }else{
-        console.log("SIMPLE ADD SIDEBAR ");
         dispatch(createSideFolder(data))
         localStorage.setItem("sideBarFolders", JSON.stringify([...sideFolderData, data]));
       }
     }else if (editData){
-      console.log("SIMPLE EDIT ");
       //  TO DO ADD HERE LOCAL STORAGE LOGIC
-    }else if (sideBarEdit){
-      
-      // TO DO ADD LOGIC FOR LOCAL STORAGE AND NEED TO GET ID OF SIDEBAR 
-      dispatch(editSideFolder(data))
+      dispatch(editFolder(editData?.id,data));
     }else{
-        console.log("SIMPLE ADD");
         dispatch(createFolder(data));
         localStorage.setItem("folder", JSON.stringify([...folderTotalData, data]));
     }
-
     handleClose();
   };
 
@@ -106,7 +82,7 @@ function FolderName({ modelOpen, handleClose ,editData,siderBarFolder,sideBarEdi
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Box display={"flex"} textAlign={"center"} alignItems={"center"}>
+        <FolderNameBox>
           <Box>
             <TextField
               id="outlined-basic"
@@ -124,7 +100,7 @@ function FolderName({ modelOpen, handleClose ,editData,siderBarFolder,sideBarEdi
               editData && <Button variant="contained" onClick={()=>deleteHandler()}> Delete </Button> 
             }
           </Box>
-        </Box>
+        </FolderNameBox>
       </Box>
     </Modal>
   );
