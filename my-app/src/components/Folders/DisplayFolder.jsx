@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FolderName from "../FolderName";
 
-function DisplayFolder({ data }) {
+function DisplayFolder({ data ,Width,sideBar}) {
   const dispatch = useDispatch();
   const [editable,setEditable] = useState();
   const [modelOpen, setModelOpen] = useState(false);
@@ -50,7 +50,7 @@ function DisplayFolder({ data }) {
       display={"flex"}
       alignItems={"center"}
       border={"2px solid black"}
-      width={"28.4%"}
+      width={Width}
       padding={2.5}
       height={"auto"}
     >
@@ -73,7 +73,7 @@ function DisplayFolder({ data }) {
       <ListItemText primary={data.name} style={{ wordWrap: "break-word" }} />
       <Box>
         <MoreVertIcon onClick={editHandler} />
-        <FolderName modelOpen={modelOpen} handleClose={modelCloseHandler} siderBarFolder={false} editData={editable}/>
+        <FolderName modelOpen={modelOpen} handleClose={modelCloseHandler} siderBarFolder={sideBar} editData={editable}/>
       </Box>
     </Box>
   );

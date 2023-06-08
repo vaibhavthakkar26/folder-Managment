@@ -29,6 +29,7 @@ export const createSideFolder = (data) =>{
 }
 
 export const editSideFolder = (id,data) =>{
+    console.log("data",data);
     return{
         type:sideBarFolderHandler.editSideFolder,
         data

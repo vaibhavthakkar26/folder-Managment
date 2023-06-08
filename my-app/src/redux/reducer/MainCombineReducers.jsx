@@ -34,6 +34,13 @@ const MainCombineReducers = (state = "", action) => {
       };
     }
 
+    case sideBarFolderHandler.editSideFolder :{
+      console.log("111",state.sbFolder.map((user) => user.id === action.data.id && action.data));
+      return {
+        ...state,
+        sbFolder: state.sbFolder.map((user) => user.id === action.data.id && action.data)
+      }
+    }
     default:
       return state;
   }

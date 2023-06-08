@@ -55,7 +55,7 @@ function Home() {
         <Box display={"flex"} flexWrap={"wrap"} alignItems={"stretch"} gap={2.4}>
           {/* Display Folders */}
           {folderTotalData?.map((result) => {
-            return <DisplayFolder data={result} />
+            return <DisplayFolder data={result} Width={"28.4%"}/>
           })}
         </Box>
       </Box>

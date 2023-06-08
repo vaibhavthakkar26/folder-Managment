@@ -2,7 +2,7 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { createFolder, deleteFolder, editFolder, createSideFolder} from "../../redux/action";
+import { createFolder, deleteFolder, editFolder, createSideFolder,editSideFolder} from "../../redux/action";
 
 const style = {
   position: "absolute",
@@ -17,7 +17,14 @@ const style = {
   p: 4,
 };
 
-function FolderName({ modelOpen, handleClose ,editData,siderBarFolder}) {
+function FolderName({ modelOpen, handleClose ,editData,siderBarFolder,sideBarEdit}) {
+  console.log("1",{
+    modelOpen,
+    handleClose,
+    editData,
+    siderBarFolder,
+    sideBarEdit
+  })
   const editFolderData = editData || {}
   const [name, setName] = useState("");
   const dispatch = useDispatch();
@@ -51,17 +58,41 @@ function FolderName({ modelOpen, handleClose ,editData,siderBarFolder}) {
       selected: false,
     };
 
+    // if(siderBarFolder){
+    //   dispatch(createSideFolder(data))
+    //   localStorage.setItem("sideBarFolders", JSON.stringify([...sideFolderData, data]));
+    // }else{
+
+    // }
+
+    // if(editData){
+    //   console.log("DATA",data);
+    //   dispatch(editFolder(editData?.id,data));
+    // }else{
+    //   dispatch(createFolder(data));
+    //   localStorage.setItem("folder", JSON.stringify([...folderTotalData, data]));
+    // }
+
     if(siderBarFolder){
-      dispatch(createSideFolder(data))
-      localStorage.setItem("sideBarFolders", JSON.stringify([...sideFolderData, data]));
-    }else{
       if(editData){
-        console.log("DATA",data);
-        dispatch(editFolder(editData?.id,data));
+        console.log("SIMPLE EDIT SIDEBAR ");
+        dispatch(editSideFolder(editData?.id,data));
       }else{
+        console.log("SIMPLE ADD SIDEBAR ");
+        dispatch(createSideFolder(data))
+        localStorage.setItem("sideBarFolders", JSON.stringify([...sideFolderData, data]));
+      }
+    }else if (editData){
+      console.log("SIMPLE EDIT ");
+      //  TO DO ADD HERE LOCAL STORAGE LOGIC
+    }else if (sideBarEdit){
+      
+      // TO DO ADD LOGIC FOR LOCAL STORAGE AND NEED TO GET ID OF SIDEBAR 
+      dispatch(editSideFolder(data))
+    }else{
+        console.log("SIMPLE ADD");
         dispatch(createFolder(data));
         localStorage.setItem("folder", JSON.stringify([...folderTotalData, data]));
-      }
     }
 
     handleClose();
