@@ -13,16 +13,21 @@ const MainCombineReducers = (state = "", action) => {
     }
 
     case actionNameHandler.editFolder :{
+      const editData = state.item.map((user) => user.id === action.data.id && action.data);
+      localStorage.setItem("folder",JSON.stringify(editData));
       return {
         ...state,
-        item: state.item.map((user) => user.id === action.data.id && action.data)
+        item: editData
       }
     }
 
     case actionNameHandler.deleteFolder :{
+      const deleteData = state.item.filter((user) => user.id !== action.data);
+      console.log("deleteData",deleteData);
+      localStorage.setItem("folder",JSON.stringify(deleteData))
       return{
         ...state,
-        item: state.item.filter((user) => user.id !== action.data)
+        item: deleteData
       }
     }
 
@@ -34,7 +39,6 @@ const MainCombineReducers = (state = "", action) => {
     }
 
     case sideBarFolderHandler.addSideFolder : {
-      // console.log("state",state);
       return {
         ...state,
         sbFolder:[...state.sbFolder,action.data]
@@ -42,17 +46,20 @@ const MainCombineReducers = (state = "", action) => {
     }
 
     case sideBarFolderHandler.editSideFolder :{
-      console.log("111",state.sbFolder.map((user) => user.id === action.data.id && action.data));
+      const siderBarEdit = state.sbFolder.map((user) => user.id === action.data.id && action.data)
+      localStorage.setItem("sideBarFolders",JSON.stringify(siderBarEdit));
       return {
         ...state,
-        sbFolder: state.sbFolder.map((user) => user.id === action.data.id && action.data)
+        sbFolder: siderBarEdit
       }
     }
 
     case sideBarFolderHandler.deleteSideFolder :{
+      const deleteSiderFolder = state.sbFolder.filter((user) => user.id !== action.data);
+      localStorage.setItem("sideBarFolders",deleteSiderFolder);
       return{
         ...state,
-        sbFolder: state.sbFolder.filter((user) => user.id !== action.data)
+        sbFolder: deleteSiderFolder
       }
     }
 
