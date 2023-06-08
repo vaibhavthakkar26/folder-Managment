@@ -54,8 +54,6 @@ function FolderName({ modelOpen, handleClose ,editData,siderBarFolder}) {
       name: name ? name : `new Folder`,
       selected: false,
     };
-    console.log("folderTotalData",folderTotalData);
-    console.log("sideFolderData",sideFolderData);
 
     if(siderBarFolder){
       if(editData){

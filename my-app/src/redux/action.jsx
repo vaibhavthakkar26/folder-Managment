@@ -29,7 +29,6 @@ export const createSideFolder = (data) =>{
 }
 
 export const editSideFolder = (id,data) =>{
-    console.log("data",data);
     return{
         type:sideBarFolderHandler.editSideFolder,
         data
@@ -37,7 +36,6 @@ export const editSideFolder = (id,data) =>{
 }   
 
 export const deleteSideFolder = (id) =>{
-    console.log("deleteSideFolder",id);
     return{
         type : sideBarFolderHandler.deleteSideFolder,
         data: id
@@ -48,6 +46,20 @@ export const deleteSideFolder = (id) =>{
 export const GeneralFolder = (data) =>{
     return {
         type : actionNameHandler.Genernal,
+        data
+    }
+}
+
+export const sidebarGeneralFolder = (data) =>{
+    return {
+        type : sideBarFolderHandler.sideBarGenernal,
+        data
+    }
+}
+
+export const folderSearchHandler = (data) =>{
+    return {
+        type : actionNameHandler.search,
         data
     }
 }

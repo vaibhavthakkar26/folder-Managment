@@ -24,8 +24,7 @@ function Home() {
       ...item,
       selected: event.target.checked,
     }));
-    dispatch(GeneralFolder(mainData)); 
-    // console.log("MainData", mainData);
+    dispatch(GeneralFolder(mainData));
   };
 
   const folderListHandler = () => {

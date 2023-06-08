@@ -23,7 +23,6 @@ const MainCombineReducers = (state = "", action) => {
 
     case actionNameHandler.deleteFolder :{
       const deleteData = state.item.filter((user) => user.id !== action.data);
-      console.log("deleteData",deleteData);
       localStorage.setItem("folder",JSON.stringify(deleteData))
       return{
         ...state,
@@ -32,6 +31,7 @@ const MainCombineReducers = (state = "", action) => {
     }
 
     case actionNameHandler.Genernal :{
+      localStorage.setItem("folder",JSON.stringify(action.data));
       return{
         ...state,
         item: action.data
@@ -60,6 +60,21 @@ const MainCombineReducers = (state = "", action) => {
       return{
         ...state,
         sbFolder: deleteSiderFolder
+      }
+    }
+
+    case sideBarFolderHandler.sideBarGenernal : {
+      localStorage.setItem("sideBarFolders",JSON.stringify(action.data));
+      return {
+        ...state,
+        sbFolder : action.data
+      }
+    }
+
+    case actionNameHandler.search :{
+      return {
+        ...state,
+        item : action.data
       }
     }
 
