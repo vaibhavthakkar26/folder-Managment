@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import DisplayFolder from "../Folders/DisplayFolder";
 import { createSideFolder } from "../../redux/action";
 import { Droppable } from "react-beautiful-dnd";
-import SideDisplayFolder from "../Folders/SideDisplayFolder";
 
 function SideBar() {
   const [modelOpen, setModelOpen] = useState(false);
@@ -34,7 +33,6 @@ function SideBar() {
     return state.folder.sbFolder;
   });
 
-
   return (
     <Box maxWidth={"319px"} width={"100%"}>
       <Box display={"flex"} paddingTop={1.2} justifyContent={"space-evenly"}>
@@ -49,16 +47,23 @@ function SideBar() {
       </Box>
       <Droppable droppableId="SideBar Folder" isCombineEnabled={true}>
         {(provided) => (
-          <Box 
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-          display={"flex"} 
-          flexWrap={"wrap"} 
-          marginTop={1.5} 
-          gap={2.5}
+          <Box
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            display={"flex"}
+            flexWrap={"wrap"}
+            marginTop={1.5}
+            gap={2.5}
           >
-            {sideFolderData.map((res,index) => {
-              return <DisplayFolder data={res} Width={"60%"} sideBar={true} index={index} />;
+            {sideFolderData.map((res, index) => {
+              return (
+                <DisplayFolder
+                  data={res}
+                  Width={"60%"}
+                  sideBar={true}
+                  index={index}
+                />
+              );
             })}
           </Box>
         )}

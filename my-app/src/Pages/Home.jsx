@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Search from "../components/Search";
 import CreateFolder from "../components/CreateFolder";
 import DisplayFolder from "../components/Folders/DisplayFolder";
-import { GeneralFolder, createFolder } from "../redux/action";
-import {  } from "../";
+import { GeneralFolder } from "../redux/action";
 import SideBar from "../components/SiderBar";
 import { Droppable } from "react-beautiful-dnd";
-import { FolderWrapper, MainContainer, RightNavBox, RightSideContainer, SearchBarBox } from "../style/Home.style";
+import {
+  FolderWrapper,
+  MainContainer,
+  RightNavBox,
+  RightSideContainer,
+  SearchBarBox,
+} from "../style/Home.style";
 function Home() {
   const dispatch = useDispatch();
 
@@ -24,6 +28,7 @@ function Home() {
       ...item,
       selected: event.target.checked,
     }));
+
     dispatch(GeneralFolder(mainData));
   };
 
@@ -31,7 +36,7 @@ function Home() {
     const localstorageData = localStorage.getItem("folder");
     if (localstorageData) {
       const items = JSON.parse(localstorageData);
-      dispatch(GeneralFolder(items)); 
+      dispatch(GeneralFolder(items));
     }
   };
 
@@ -40,7 +45,7 @@ function Home() {
   }, []);
 
   return (
-    <MainContainer >
+    <MainContainer>
       <SideBar />
       <RightSideContainer>
         <RightNavBox>
@@ -57,13 +62,12 @@ function Home() {
         </RightNavBox>
         <Droppable droppableId="General Folder" isCombineEnabled={true}>
           {(provided) => (
-            <FolderWrapper
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
+            <FolderWrapper ref={provided.innerRef} {...provided.droppableProps}>
               {/* Display Folders */}
-              {folderTotalData?.map((result,index) => {
-                return <DisplayFolder data={result} Width={"28.4%"} index={index}/>;
+              {folderTotalData?.map((result, index) => {
+                return (
+                  <DisplayFolder data={result} Width={"28.4%"} index={index} />
+                );
               })}
             </FolderWrapper>
           )}

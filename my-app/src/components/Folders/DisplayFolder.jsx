@@ -1,9 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import FolderIcon from "@mui/icons-material/Folder";
@@ -12,20 +7,19 @@ import ListItemText from "@mui/material/ListItemText/ListItemText";
 import { useSelector } from "react-redux";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FolderName from "../FolderName";
-import {Draggable} from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { GeneralFolder } from "../../redux/action";
 import { FolderBox } from "../../style/Home.style";
 
-function DisplayFolder({ data ,Width,sideBar,index}) {
-  const [editable,setEditable] = useState();
+function DisplayFolder({ data, Width, sideBar, index }) {
+  const [editable, setEditable] = useState();
   const [modelOpen, setModelOpen] = useState(false);
   const dispatch = useDispatch();
 
   const folderTotalData = useSelector((state) => {
     return state.folder.item;
   });
-
 
   const checkBoxHandler = (event) => {
     const mainData = folderTotalData.map((res) => {
@@ -37,24 +31,25 @@ function DisplayFolder({ data ,Width,sideBar,index}) {
       }
       return res;
     });
-     dispatch(GeneralFolder(mainData));
+    dispatch(GeneralFolder(mainData));
   };
-
 
   const editHandler = () => {
     setEditable(data);
     setModelOpen(true);
   };
 
-  const modelCloseHandler = () =>{
+  const modelCloseHandler = () => {
     setModelOpen(false);
     setEditable(null);
-  }
+  };
 
   return (
-    <Draggable draggableId={sideBar ?  `Folder_SIDEBAR${index}` :`Folder${index}`} index={index}>
-      {
-        (provided)=>(
+    <Draggable
+      draggableId={sideBar ? `Folder_SIDEBAR${index}` : `Folder${index}`}
+      index={index}
+    >
+      {(provided) => (
         <FolderBox
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -77,15 +72,22 @@ function DisplayFolder({ data ,Width,sideBar,index}) {
               <FolderIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={data.name} style={{ wordWrap: "break-word" }} />
+          <ListItemText
+            primary={data.name}
+            style={{ wordWrap: "break-word" }}
+          />
           <Box>
             <MoreVertIcon onClick={editHandler} />
-            <FolderName modelOpen={modelOpen} handleClose={modelCloseHandler} siderBarFolder={sideBar} editData={editable}/>
+            <FolderName
+              modelOpen={modelOpen}
+              handleClose={modelCloseHandler}
+              siderBarFolder={sideBar}
+              editData={editable}
+            />
           </Box>
           {provided.placeholder}
         </FolderBox>
-        )
-      }
+      )}
     </Draggable>
   );
 }

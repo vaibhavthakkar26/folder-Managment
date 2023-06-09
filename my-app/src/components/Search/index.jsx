@@ -21,7 +21,6 @@ function Search() {
       });
       dispatch(folderSearchHandler(searchList));
     }else{
-     const totalFolderData = localStorage.getItem("folder");
      dispatch(GeneralFolder(JSON.parse(localStorage.getItem("folder")))); 
    }
   }
